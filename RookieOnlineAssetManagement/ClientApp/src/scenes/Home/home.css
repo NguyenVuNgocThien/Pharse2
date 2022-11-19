@@ -1,0 +1,42 @@
+.modal {
+    border: solid black 1px;
+}
+
+.modal__header {
+    border-bottom: solid black 1px;
+    background-color: #eff1f5;
+    color: #e9424d;
+    font-weight: 900;
+}
+
+.modal__header,
+.modal__body {
+    padding: 10px 100px 10px 60px;
+}
+
+.modal__body {
+    padding-bottom: 30px;
+    padding-top: 20px;
+}
+
+.modal__btn {
+    display: block;
+    background-color: #e9424d;
+    color: white;
+    border: none;
+    transition: opacity linear 0.2s;
+}
+.modal__btn:hover {
+    background-color: #e9424d;
+    opacity: 0.8;
+}
+
+.input-group__label {
+    line-height: 30px;
+    padding-right: 10px;
+}
+
+.modal__imput-group {
+    margin-bottom: 20px;
+    margin-top: 10px;
+}

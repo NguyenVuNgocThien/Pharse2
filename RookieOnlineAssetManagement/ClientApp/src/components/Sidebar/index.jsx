@@ -27,7 +27,15 @@ const Sidebar = () => {
                             className="border border-white border-3"
                             style={{ background: "#eeeeee" }}
                         >
-                            <Link to="/ManageUser">Manage User</Link>
+                            <Link
+                                to="/ManageUser"
+                                style={{
+                                    textDecoration: "none",
+                                    color: "#cf2338",
+                                }}
+                            >
+                                Manage User
+                            </Link>
                         </ListGroup.Item>
                     </Link>
                     <Link className="ListGroup__Link" to="">

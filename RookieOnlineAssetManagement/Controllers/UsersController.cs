@@ -33,6 +33,12 @@ namespace RookieOnlineAssetManagement.Controllers
             _userRepository = userRepository;
             _userManager = userManager;
         }
+        [HttpGet("CurrentUser")]
+        public async Task<ActionResult<UserModel>> GetCurrentUser()
+        {
+            var currUser = await _userManager.GetUserAsync(User);
+            return Ok(currUser);
+        }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserModel>>> Get(int page)

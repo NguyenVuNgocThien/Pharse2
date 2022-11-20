@@ -46,7 +46,7 @@ const Assignment = () => {
                     </tr>
                 </tbody>
             </Table>
-            <Modal
+            {/* <Modal
                 show={show}
                 onHide={handleClose}
                 backdrop="static"
@@ -85,7 +85,7 @@ const Assignment = () => {
                         </div>
                     </form>
                 </Modal.Body>
-            </Modal>
+            </Modal> */}
         </div>
     );
 };

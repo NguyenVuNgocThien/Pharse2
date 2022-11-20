@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using RookieOnlineAssetManagement.Data;
+using RookieOnlineAssetManagement.Entities;
 using RookieOnlineAssetManagement.Interface;
 using RookieOnlineAssetManagement.Models;
 using RookieOnlineAssetManagement.Repositories;
@@ -18,35 +21,42 @@ namespace RookieOnlineAssetManagement.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly ILogger _logger;
+        //private readonly ILogger _logger;
         private readonly ApplicationDbContext _dbContext;
         private readonly IUserRepository _userRepository;
+        private readonly UserManager<User> _userManager;
 
-        public UsersController(ILogger<UsersController> logger, IUserRepository userRepository)
+
+        public UsersController( UserManager<User> userManager, IUserRepository userRepository)
         {
-            _logger = logger;
+            //_logger = logger;
             _userRepository = userRepository;
+            _userManager = userManager;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserModel>>> Get(int page)
         {
-            return await _userRepository.GetAllAsync(page);
+            var user_login = await _userManager.GetUserAsync(User);
+            return await _userRepository.GetAllAsync(page, user_login);
         }
         [HttpGet("{Type}")]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetUserByType(string Type)
         {
-            return await _userRepository.GetUserByType(Type);
+            var user_login = await _userManager.GetUserAsync(User);
+            return await _userRepository.GetUserByType(Type, user_login);
         }
         [HttpGet("Find/{Find}")]
         public async Task<ActionResult<IEnumerable<UserModel>>> FindUserByName(string Find)
         {
-            return await _userRepository.FindUser(Find);
+            var user_login = await _userManager.GetUserAsync(User);
+            return await _userRepository.FindUser(Find, user_login);
         }
         [HttpGet("Sort/{Sort}")]
         public async Task<ActionResult<IEnumerable<UserModel>>> SortUser(string Sort)
         {
-            return await _userRepository.SortUser(Sort);
+            var user_login = await _userManager.GetUserAsync(User);
+            return await _userRepository.SortUser(Sort, user_login);
         }
     }
 }

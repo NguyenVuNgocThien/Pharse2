@@ -3,6 +3,7 @@ using AutoMapper;
 using Duende.IdentityServer.Services;
 using Microsoft.EntityFrameworkCore;
 using RookieOnlineAssetManagement.Data;
+using RookieOnlineAssetManagement.Entities;
 using RookieOnlineAssetManagement.Enum;
 using RookieOnlineAssetManagement.Interface;
 using RookieOnlineAssetManagement.Models;
@@ -26,9 +27,9 @@ namespace RookieOnlineAssetManagement.Repositories
             _context = context;
         }
 
-        public async Task<List<UserModel>> FindUser(string Find)
+        public async Task<List<UserModel>> FindUser(string Find, User user_login)
         {
-            var users = await _context.Users.Where(s => s.StaffCode.ToUpper().Contains(Find.ToUpper())).Select(x => new UserModel
+            var users = await _context.Users.Where(s => s.StaffCode.ToUpper().Contains(Find.ToUpper()) && s.Location == user_login.Location).Select(x => new UserModel
             {
                 StaffCode = x.StaffCode,
                 FullName = x.FirstName + " " + x.LastName,
@@ -38,7 +39,7 @@ namespace RookieOnlineAssetManagement.Repositories
             }).ToListAsync();
             if (users.Count == 0)
             {
-                users = await _context.Users.Where(s => (s.FirstName.ToUpper() + " " + s.LastName).Contains(Find.ToUpper())).Select(x => new UserModel
+                users = await _context.Users.Where(s => (s.FirstName.ToUpper() + " " + s.LastName).Contains(Find.ToUpper()) && s.Location == user_login.Location).Select(x => new UserModel
                 {
                     StaffCode = x.StaffCode,
                     FullName = x.FirstName + " " + x.LastName,
@@ -48,7 +49,7 @@ namespace RookieOnlineAssetManagement.Repositories
                 }).ToListAsync();
                 if (users.Count == 0)
                 {
-                    users = await _context.Users.Where(s => s.UserName.ToUpper().Contains(Find.ToUpper())).Select(x => new UserModel
+                    users = await _context.Users.Where(s => s.UserName.ToUpper().Contains(Find.ToUpper()) && s.Location == user_login.Location).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
@@ -62,9 +63,9 @@ namespace RookieOnlineAssetManagement.Repositories
         }
 
 
-        public async Task<List<UserModel>> GetAllAsync(int page)
+        public async Task<List<UserModel>> GetAllAsync(int page, User user_login)
         {
-            var users = await _context.Users.Select(x=> new UserModel
+            var users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x=> new UserModel
             {
                 StaffCode = x.StaffCode,
                 FullName = x.FirstName + " " + x.LastName,
@@ -86,13 +87,13 @@ namespace RookieOnlineAssetManagement.Repositories
             }
         }
 
-        public async Task<List<UserModel>> GetUserByType(string Type)
+        public async Task<List<UserModel>> GetUserByType(string Type, User user_login)
         {
             if (Type != "")
             {
                 if (Type == "Admin")
                 {
-                    var users = await _context.Users.Where(x => x.Type == UserType.Admin).Select(x => new UserModel
+                    var users = await _context.Users.Where(x => x.Type == UserType.Admin && x.Location == user_login.Location ).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
@@ -104,7 +105,7 @@ namespace RookieOnlineAssetManagement.Repositories
                 }
                 else if (Type == "Staff")
                 {
-                    var users = await _context.Users.Where(x => x.Type == UserType.Staff).Select(x => new UserModel
+                    var users = await _context.Users.Where(x => x.Type == UserType.Staff && x.Location == user_login.Location).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
@@ -116,7 +117,7 @@ namespace RookieOnlineAssetManagement.Repositories
                 }
                 else
                 {
-                    var users = await _context.Users.Select(x => new UserModel
+                    var users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
@@ -129,7 +130,7 @@ namespace RookieOnlineAssetManagement.Repositories
             }
             else
             {
-                var users = await _context.Users.Select(x => new UserModel
+                var users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
                 {
                     StaffCode = x.StaffCode,
                     FullName = x.FirstName + " " + x.LastName,
@@ -141,9 +142,9 @@ namespace RookieOnlineAssetManagement.Repositories
             }
         }
 
-        public async Task<List<UserModel>> SortUser(string Sort)
+        public async Task<List<UserModel>> SortUser(string Sort, User user_login)
         {
-            var users = await _context.Users.Select(x => new UserModel
+            var users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
             {
                 StaffCode = x.StaffCode,
                 FullName = x.FirstName + " " + x.LastName,
@@ -154,17 +155,17 @@ namespace RookieOnlineAssetManagement.Repositories
             switch (Sort)
             {
                 case "Staff Code":
-                    users = await _context.Users.Select(x => new UserModel
+                    users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
                         JoinedDate = x.JoinedDay,
                         Type = x.Type
-                    }).OrderByDescending(o=>o.FullName).ToListAsync();
+                    }).OrderByDescending(o=>o.StaffCode).ToListAsync();
                     break;
                 case "Full Name":
-                    users = await _context.Users.Select(x => new UserModel
+                    users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
@@ -174,7 +175,7 @@ namespace RookieOnlineAssetManagement.Repositories
                     }).OrderByDescending(o => o.FullName).ToListAsync();
                     break;
                 case "Joined Date":
-                    users = await _context.Users.Select(x => new UserModel
+                    users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
@@ -184,7 +185,7 @@ namespace RookieOnlineAssetManagement.Repositories
                     }).OrderByDescending(o => o.JoinedDate).ToListAsync();
                     break;
                 case "Type":
-                    users = await _context.Users.Select(x => new UserModel
+                    users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,

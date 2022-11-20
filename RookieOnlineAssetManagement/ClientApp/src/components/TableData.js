@@ -113,7 +113,7 @@ export default function TableData(props) {
         }
     };
     const handleFilter = () => {
-        if (all == true) {
+        if (all == true || (admin == true && staff == true) || (admin == true && all == true) || (all == true && staff == true)) {
             const loadUser = async () => {
                 let res = await api.get(endpoint["ListUserByType"]("All"));
                 try {

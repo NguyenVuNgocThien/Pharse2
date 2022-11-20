@@ -7,5 +7,5 @@ export let endpoint = {
     ListUserByType: (type) => `api/Users/${type}`,
 };
 export default axios.create({
-    baseURL: "https://localhost:5001",
+    baseURL: "https://localhost:44303",
 });

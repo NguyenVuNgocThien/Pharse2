@@ -5,13 +5,15 @@ export default function ClassItem(props) {
     const { presentation } = props;
     const modalContext = useContext(ModalContext);
 
-    var date = new Date(presentation.joinedDate);
-    var month = date.getMonth() + 1;
+    var joindate = new Date(presentation.joinedDate);
+    var birthdate = new Date(presentation.dateofBirth);
+    var month2 = birthdate.getMonth() + 1;
+    var month = joindate.getMonth() + 1;
     const items = [
         presentation.staffCode,
         presentation.fullName,
         presentation.userName,
-        date.getDate() + "/" + month + "/" + date.getFullYear(),
+        joindate.getDate() + "/" + month + "/" + joindate.getFullYear(),
         presentation.type == 1 ? "Admin" : "Staff",
     ];
 
@@ -20,35 +22,35 @@ export default function ClassItem(props) {
             <div class="container" style={{ width: "300px" }}>
                 <div class="row mb-3">
                     <div class="col-5">Staff Code</div>
-                    <div class="col-7">Insert data here</div>
+                    <div class="col-7">{presentation.staffCode}</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-5">Full Name</div>
-                    <div class="col-7">Insert data here</div>
+                    <div class="col-7">{presentation.fullName}</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-5">Username</div>
-                    <div class="col-7">Insert data here</div>
+                    <div class="col-7">{presentation.userName}</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-5">Date of Birth</div>
-                    <div class="col-7">Insert data here</div>
+                    <div class="col-7">{birthdate.getDate() + "/" + month2 + "/" + birthdate.getFullYear()}</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-5">Gender</div>
-                    <div class="col-7">Insert data here</div>
+                    <div class="col-7">{presentation.gender == 1 ? "Male" : "Female"}</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-5">Joined Date</div>
-                    <div class="col-7">Insert data here</div>
+                    <div class="col-7">{joindate.getDate() + "/" + month + "/" + joindate.getFullYear()}</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-5">Type</div>
-                    <div class="col-7">Insert data here</div>
+                    <div class="col-7">{presentation.type == 1 ? "Admin" : "Staff"}</div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-5">Location</div>
-                    <div class="col-7">Insert data here</div>
+                    <div class="col-7">{presentation.location}</div>
                 </div>
             </div>
         );

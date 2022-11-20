@@ -29,32 +29,41 @@ namespace RookieOnlineAssetManagement.Repositories
 
         public async Task<List<UserModel>> FindUser(string Find, User user_login)
         {
-            var users = await _context.Users.Where(s => s.StaffCode.ToUpper().Contains(Find.ToUpper()) && s.Location == user_login.Location).Select(x => new UserModel
+            var users = await _context.Users.Where(s => s.StaffCode.ToUpper().Contains(Find.ToUpper()) && s.Location == user_login.Location && s.IsDisabled == true).Select(x => new UserModel
             {
                 StaffCode = x.StaffCode,
                 FullName = x.FirstName + " " + x.LastName,
                 UserName = x.UserName,
                 JoinedDate = x.JoinedDay,
+                DateofBirth = x.DateofBirth,
+                Gender = x.Gender,
+                Location = x.Location,
                 Type = x.Type
             }).ToListAsync();
             if (users.Count == 0)
             {
-                users = await _context.Users.Where(s => (s.FirstName.ToUpper() + " " + s.LastName).Contains(Find.ToUpper()) && s.Location == user_login.Location).Select(x => new UserModel
+                users = await _context.Users.Where(s => (s.FirstName.ToUpper() + " " + s.LastName).Contains(Find.ToUpper()) && s.Location == user_login.Location && s.IsDisabled == true).Select(x => new UserModel
                 {
                     StaffCode = x.StaffCode,
                     FullName = x.FirstName + " " + x.LastName,
                     UserName = x.UserName,
                     JoinedDate = x.JoinedDay,
+                    DateofBirth = x.DateofBirth,
+                    Gender = x.Gender,
+                    Location = x.Location,
                     Type = x.Type
                 }).ToListAsync();
                 if (users.Count == 0)
                 {
-                    users = await _context.Users.Where(s => s.UserName.ToUpper().Contains(Find.ToUpper()) && s.Location == user_login.Location).Select(x => new UserModel
+                    users = await _context.Users.Where(s => s.UserName.ToUpper().Contains(Find.ToUpper()) && s.Location == user_login.Location && s.IsDisabled == true).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
                         JoinedDate = x.JoinedDay,
+                        DateofBirth = x.DateofBirth,
+                        Gender = x.Gender,
+                        Location = x.Location,
                         Type = x.Type
                     }).ToListAsync();
                 }
@@ -65,17 +74,20 @@ namespace RookieOnlineAssetManagement.Repositories
 
         public async Task<List<UserModel>> GetAllAsync(int page, User user_login)
         {
-            var users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x=> new UserModel
+            var users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == true).Select(x => new UserModel
             {
                 StaffCode = x.StaffCode,
                 FullName = x.FirstName + " " + x.LastName,
                 UserName = x.UserName,
                 JoinedDate = x.JoinedDay,
-                Type =x.Type
+                DateofBirth = x.DateofBirth,
+                Gender = x.Gender,
+                Location = x.Location,
+                Type = x.Type
             }).ToListAsync();
             int uCount = users.Count();
             int totalPages = (uCount % 5 == 0) ? uCount / 5 : (uCount / 5) + 1;
-            int offset = 5 * (page-1);
+            int offset = 5 * (page - 1);
             var res = users.Skip(offset).Take(5).ToList();
             if (page == 0)
             {
@@ -93,36 +105,45 @@ namespace RookieOnlineAssetManagement.Repositories
             {
                 if (Type == "Admin")
                 {
-                    var users = await _context.Users.Where(x => x.Type == UserType.Admin && x.Location == user_login.Location ).Select(x => new UserModel
+                    var users = await _context.Users.Where(x => x.Type == UserType.Admin && x.Location == user_login.Location && x.IsDisabled == true).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
                         JoinedDate = x.JoinedDay,
+                        DateofBirth = x.DateofBirth,
+                        Gender = x.Gender,
+                        Location = x.Location,
                         Type = x.Type
                     }).ToListAsync();
                     return _mapper.Map<List<UserModel>>(users);
                 }
                 else if (Type == "Staff")
                 {
-                    var users = await _context.Users.Where(x => x.Type == UserType.Staff && x.Location == user_login.Location).Select(x => new UserModel
+                    var users = await _context.Users.Where(x => x.Type == UserType.Staff && x.Location == user_login.Location && x.IsDisabled == true).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
                         JoinedDate = x.JoinedDay,
+                        DateofBirth = x.DateofBirth,
+                        Gender = x.Gender,
+                        Location = x.Location,
                         Type = x.Type
                     }).ToListAsync();
                     return _mapper.Map<List<UserModel>>(users);
                 }
                 else
                 {
-                    var users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
+                    var users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == true).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
                         JoinedDate = x.JoinedDay,
+                        DateofBirth = x.DateofBirth,
+                        Gender = x.Gender,
+                        Location = x.Location,
                         Type = x.Type
                     }).ToListAsync();
                     return _mapper.Map<List<UserModel>>(users);
@@ -130,12 +151,15 @@ namespace RookieOnlineAssetManagement.Repositories
             }
             else
             {
-                var users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
+                var users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == true).Select(x => new UserModel
                 {
                     StaffCode = x.StaffCode,
                     FullName = x.FirstName + " " + x.LastName,
                     UserName = x.UserName,
                     JoinedDate = x.JoinedDay,
+                    DateofBirth = x.DateofBirth,
+                    Gender = x.Gender,
+                    Location = x.Location,
                     Type = x.Type
                 }).ToListAsync();
                 return _mapper.Map<List<UserModel>>(users);
@@ -144,53 +168,68 @@ namespace RookieOnlineAssetManagement.Repositories
 
         public async Task<List<UserModel>> SortUser(string Sort, User user_login)
         {
-            var users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
+            var users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == true).Select(x => new UserModel
             {
                 StaffCode = x.StaffCode,
                 FullName = x.FirstName + " " + x.LastName,
                 UserName = x.UserName,
                 JoinedDate = x.JoinedDay,
+                DateofBirth = x.DateofBirth,
+                Gender = x.Gender,
+                Location = x.Location,
                 Type = x.Type
             }).ToListAsync();
             switch (Sort)
             {
                 case "Staff Code":
-                    users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
+                    users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == true).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
                         JoinedDate = x.JoinedDay,
+                        DateofBirth = x.DateofBirth,
+                        Gender = x.Gender,
+                        Location = x.Location,
                         Type = x.Type
-                    }).OrderByDescending(o=>o.StaffCode).ToListAsync();
+                    }).OrderByDescending(o => o.StaffCode).ToListAsync();
                     break;
                 case "Full Name":
-                    users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
+                    users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == true).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
                         JoinedDate = x.JoinedDay,
+                        DateofBirth = x.DateofBirth,
+                        Gender = x.Gender,
+                        Location = x.Location,
                         Type = x.Type
                     }).OrderByDescending(o => o.FullName).ToListAsync();
                     break;
                 case "Joined Date":
-                    users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
+                    users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == true).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
                         JoinedDate = x.JoinedDay,
+                        DateofBirth = x.DateofBirth,
+                        Gender = x.Gender,
+                        Location = x.Location,
                         Type = x.Type
                     }).OrderByDescending(o => o.JoinedDate).ToListAsync();
                     break;
                 case "Type":
-                    users = await _context.Users.Where(x => x.Location == user_login.Location).Select(x => new UserModel
+                    users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == true).Select(x => new UserModel
                     {
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
                         JoinedDate = x.JoinedDay,
+                        DateofBirth = x.DateofBirth,
+                        Gender = x.Gender,
+                        Location = x.Location,
                         Type = x.Type
                     }).OrderByDescending(o => o.Type).ToListAsync();
                     break;

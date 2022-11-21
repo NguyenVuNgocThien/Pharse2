@@ -19,7 +19,7 @@ export default function ClassItem(props) {
 
     const showUserInfo = () => {
         const userData = (
-            <div class="container" style={{ width: "350px", height: "300px", margin: "-26px" }}>
+            <div class="container" style={{ width: "370px", height: "350px" }}>
                 <div class="row mb-3">
                     <div class="col-5">Staff Code</div>
                     <div class="col-7">{presentation.staffCode}</div>
@@ -71,9 +71,9 @@ export default function ClassItem(props) {
     };
 
     return (
-        <tr onClick={showUserInfo}>
+        <tr >
             {[...items].map((item, index) => (
-                <td className="align-middle" key={index}>
+                <td className="align-middle" key={index} onClick={showUserInfo}>
                     {item}
                 </td>
             ))}

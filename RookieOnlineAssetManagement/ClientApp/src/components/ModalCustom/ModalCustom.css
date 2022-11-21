@@ -13,6 +13,7 @@
     border: 1px solid;
     overflow: hidden;
     visibility: hidden;
+    z-index:999;
     opacity: 0;
 }
 .custom-modal.show {

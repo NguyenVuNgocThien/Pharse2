@@ -13,5 +13,6 @@ namespace RookieOnlineAssetManagement.Models
         public Gender Gender { get; set; }
         public string Location { get; set; } = null!;
         public UserType Type { get; set; }
+        public bool isDisabled { get; set; }
     }
 }

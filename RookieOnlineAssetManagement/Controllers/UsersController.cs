@@ -58,28 +58,28 @@ namespace RookieOnlineAssetManagement.Controllers
             var user_login = await _userManager.GetUserAsync(User);
             return await _userRepository.FindUser(Find, user_login);
         }
-        [HttpGet("Sort/{Sort}")]
-        public async Task<ActionResult<IEnumerable<UserModel>>> SortUser(string Sort)
-        {
-            var user_login = await _userManager.GetUserAsync(User);
-            return await _userRepository.SortUser(Sort, user_login);
-        }
-        [HttpGet("Pagination/{page}")]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetUserByType(int page, string Type, string Find, string Sort)
+        //[HttpGet("Sort/{Sort}")]
+        //public async Task<ActionResult<IEnumerable<UserModel>>> SortUser(string Sort)
+        //{
+        //    var user_login = await _userManager.GetUserAsync(User);
+        //    return await _userRepository.SortUser(Sort, user_login);
+        //}
+        [HttpGet("Pagination/{page}/{Type}/{Find}/{Sort}")]
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetUserByType(int page=0, string Type="",string Find="",string Sort="")
         {
             var user_login = await _userManager.GetUserAsync(User);
             var list = await _userRepository.GetAllAsync(page, user_login);
-            if (Type != null)
+            if (Type != "null"&&Sort=="null"&&Find=="null")
             {
                 list = await _userRepository.GetUserByType(page, Type, user_login);
             }
-            else if (Find != null)
+            else if (Find != "null")
             {
                 list = await _userRepository.FindUser(Find, user_login);
             }
-            else if (Sort != null)
+            else if (Sort != "null")
             {
-                list = await _userRepository.SortUser(Sort, user_login);
+                list = await _userRepository.SortUser(Sort, user_login,Type,Find);
             }
             return list;
         }

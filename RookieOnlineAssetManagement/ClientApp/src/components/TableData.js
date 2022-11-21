@@ -22,7 +22,7 @@ export default function TableData(props) {
     useEffect(() => {
         const loadUser = async () => {
             let count = await api.get(endpoint["ListUser"](initialPagination.currentPage - 1));
-            let res = await api.get(endpoint["ListUser"](initialPagination.currentPage - 1));
+            let res = await api.get(endpoint["Users"](initialPagination.currentPage - 1,'null','null','null'));
             try {
                 console.info(initialPagination.currentPage)
                 console.info(res.data)
@@ -53,7 +53,7 @@ export default function TableData(props) {
 
     const handleSearchUser = () => {
         const loadUser = async () => {
-            let res = await api.get(endpoint["FindUser"](searchString));
+            let res = await api.get(endpoint["Users"](0, "null", searchString,"null"));
             try {
                 setUserList(res.data);
             } catch (err) {
@@ -64,44 +64,84 @@ export default function TableData(props) {
     };
     const handleSortByStaffCode = () => {
         const loadUser = async () => {
-            let res = await api.get(endpoint["SortUser"]("Staff Code"));
-            try {
-                setUserList(res.data);
-            } catch (err) {
-                console.error(err);
+            if (admin == true) {
+                let res = await api.get(endpoint["Users"](0, "Admin", "null", "Staff Code"));
+                try {
+                    setUserList(res.data);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+            else if (staff == true) {
+                let res = await api.get(endpoint["Users"](0, "Staff", "null", "Staff Code"));
+                try {
+                    setUserList(res.data);
+                } catch (err) {
+                    console.error(err);
+                }
             }
         };
         loadUser();
     };
     const handleSortByName = () => {
         const loadUser = async () => {
-            let res = await api.get(endpoint["SortUser"]("Full Name"));
-            try {
-                setUserList(res.data);
-            } catch (err) {
-                console.error(err);
+            if (admin == true) {
+                let res = await api.get(endpoint["Users"](0, "Admin", "null", "Full Name"));
+                try {
+                    setUserList(res.data);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+            else if (staff == true) {
+                let res = await api.get(endpoint["Users"](0, "Staff", "null", "Full Name"));
+                try {
+                    setUserList(res.data);
+                } catch (err) {
+                    console.error(err);
+                }
             }
         };
         loadUser();
     };
     const handleSortByJoinedDate = () => {
         const loadUser = async () => {
-            let res = await api.get(endpoint["SortUser"]("Joined Date"));
-            try {
-                setUserList(res.data);
-            } catch (err) {
-                console.error(err);
+            if (admin == true) {
+                let res = await api.get(endpoint["Users"](0, "Admin", "null", "Joined Date"));
+                try {
+                    setUserList(res.data);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+            else if (staff == true) {
+                let res = await api.get(endpoint["Users"](0, "Staff", "null", "Joined Date"));
+                try {
+                    setUserList(res.data);
+                } catch (err) {
+                    console.error(err);
+                }
             }
         };
         loadUser();
     };
     const handleSortByType = () => {
         const loadUser = async () => {
-            let res = await api.get(endpoint["SortUser"]("Type"));
-            try {
-                setUserList(res.data);
-            } catch (err) {
-                console.error(err);
+            if (admin == true) {
+                let res = await api.get(endpoint["Users"](0, "Admin", "null", "Type"));
+                try {
+                    setUserList(res.data);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+            else if (staff == true) {
+                let res = await api.get(endpoint["Users"](0, "Staff", "null", "Type"));
+                try {
+                    setUserList(res.data);
+                } catch (err) {
+                    console.error(err);
+                }
             }
         };
         loadUser();
@@ -120,7 +160,7 @@ export default function TableData(props) {
     const handleFilter = () => {
         if (all == true || (admin == true && staff == true) || (admin == true && all == true) || (all == true && staff == true)) {
             const loadUser = async () => {
-                let res = await api.get(endpoint["ListUserByType"]("All", initialPagination.currentPage - 1));
+                let res = await api.get(endpoint["Users"](0, "All", "null", "null"));
                 try {
                     setUserList(res.data);
                 } catch (err) {
@@ -129,9 +169,9 @@ export default function TableData(props) {
             };
             loadUser();
         }
-        if (admin == true) {
+        else if (admin == true) {
             const loadUser = async () => {
-                let res = await api.get(endpoint["ListUserByType"]("Admin", initialPagination.currentPage - 1));
+                let res = await api.get(endpoint["Users"](0, "Admin", "null", "null"));
                 try {
                     setUserList(res.data);
                 } catch (err) {
@@ -140,9 +180,9 @@ export default function TableData(props) {
             };
             loadUser();
         }
-        if (staff == true) {
+        else if (staff == true) {
             const loadUser = async () => {
-                let res = await api.get(endpoint["ListUserByType"]("Staff", initialPagination.currentPage - 1));
+                let res = await api.get(endpoint["Users"](0, "Staff", "null", "null"));
                 try {
                     setUserList(res.data);
                 } catch (err) {
@@ -154,7 +194,7 @@ export default function TableData(props) {
     };
 
     return (
-        <div>
+        <div style={{ marginTop:"150px" }}>
             <div className="row">
                 <h4 className="text-start text-nash-red">User list</h4>
                 <div className="col-sm-4 text-start">
@@ -256,20 +296,20 @@ export default function TableData(props) {
                 <thead>
                     <tr>
                         <th value="Staff Code" onClick={handleSortByStaffCode}>
-                            Staff Code
+                            Staff Code<i className="bi bi-caret-down-fill ms-1"></i>
                         </th>
                         <th value="Full Name" onClick={handleSortByName}>
-                            FullName
+                            FullName<i className="bi bi-caret-down-fill ms-1"></i>
                         </th>
                         <th>UserName</th>
                         <th
                             value="Joined Date"
                             onClick={handleSortByJoinedDate}
                         >
-                            JoinedDate
+                            JoinedDate<i className="bi bi-caret-down-fill ms-1"></i>
                         </th>
                         <th value="Type" onClick={handleSortByType}>
-                            Type
+                            Type<i className="bi bi-caret-down-fill ms-1"></i>
                         </th>
                     </tr>
                 </thead>

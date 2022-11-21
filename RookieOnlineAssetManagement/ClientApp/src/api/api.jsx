@@ -1,7 +1,7 @@
 ﻿import axios from "axios"
 
 export let endpoint = {
-    'Users': (page) => `api/Users/Pagination/${page}`,
+    'Users': (page, type, find, sort) => `api/Users/Pagination/${page}/${type}/${find}/${sort}`,
     'ListUser': (page) => `api/Users/Current/${page}`,
     'FindUser': (find) => `api/Users/Find/${find}`,
     'SortUser': (sort) => `api/Users/Sort/${sort}`,

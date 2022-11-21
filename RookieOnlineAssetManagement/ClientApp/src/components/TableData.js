@@ -8,6 +8,7 @@ import { Form, Button, Dropdown, Table, ButtonGroup } from "react-bootstrap";
 export default function TableData(props) {
     const [filter, setFilter] = useState("");
     const [userList, setUserList] = useState([]);
+    const [totalUser, setTotalUser] = useState([]);
     const [searchString, setSearchString] = useState();
     const [all, setAll] = useState(false);
     const [admin, setAdmin] = useState(false);
@@ -20,8 +21,12 @@ export default function TableData(props) {
     };
     useEffect(() => {
         const loadUser = async () => {
-            let res = await api.get(endpoint["ListUser"]);
+            let count = await api.get(endpoint["ListUser"](initialPagination.currentPage - 1));
+            let res = await api.get(endpoint["ListUser"](initialPagination.currentPage - 1));
             try {
+                console.info(initialPagination.currentPage)
+                console.info(res.data)
+                setTotalUser(count.data);
                 setUserList(res.data);
             } catch (err) {
                 console.error(err);
@@ -115,7 +120,7 @@ export default function TableData(props) {
     const handleFilter = () => {
         if (all == true || (admin == true && staff == true) || (admin == true && all == true) || (all == true && staff == true)) {
             const loadUser = async () => {
-                let res = await api.get(endpoint["ListUserByType"]("All"));
+                let res = await api.get(endpoint["ListUserByType"]("All", initialPagination.currentPage - 1));
                 try {
                     setUserList(res.data);
                 } catch (err) {
@@ -126,7 +131,7 @@ export default function TableData(props) {
         }
         if (admin == true) {
             const loadUser = async () => {
-                let res = await api.get(endpoint["ListUserByType"]("Admin"));
+                let res = await api.get(endpoint["ListUserByType"]("Admin", initialPagination.currentPage - 1));
                 try {
                     setUserList(res.data);
                 } catch (err) {
@@ -137,7 +142,7 @@ export default function TableData(props) {
         }
         if (staff == true) {
             const loadUser = async () => {
-                let res = await api.get(endpoint["ListUserByType"]("Staff"));
+                let res = await api.get(endpoint["ListUserByType"]("Staff", initialPagination.currentPage - 1));
                 try {
                     setUserList(res.data);
                 } catch (err) {

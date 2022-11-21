@@ -27,7 +27,7 @@ namespace RookieOnlineAssetManagement.Controllers
         private readonly UserManager<User> _userManager;
 
 
-        public UsersController( UserManager<User> userManager, IUserRepository userRepository)
+        public UsersController(UserManager<User> userManager, IUserRepository userRepository)
         {
             //_logger = logger;
             _userRepository = userRepository;
@@ -40,17 +40,17 @@ namespace RookieOnlineAssetManagement.Controllers
             return Ok(currUser);
         }
 
-        [HttpGet]
+        [HttpGet("Current")]
         public async Task<ActionResult<IEnumerable<UserModel>>> Get(int page)
         {
             var user_login = await _userManager.GetUserAsync(User);
             return await _userRepository.GetAllAsync(page, user_login);
         }
-        [HttpGet("{Type}")]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetUserByType(string Type)
+        [HttpGet("{Type}/{page}")]
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetUserByType(int page, string Type)
         {
             var user_login = await _userManager.GetUserAsync(User);
-            return await _userRepository.GetUserByType(Type, user_login);
+            return await _userRepository.GetUserByType(page, Type, user_login);
         }
         [HttpGet("Find/{Find}")]
         public async Task<ActionResult<IEnumerable<UserModel>>> FindUserByName(string Find)
@@ -63,6 +63,25 @@ namespace RookieOnlineAssetManagement.Controllers
         {
             var user_login = await _userManager.GetUserAsync(User);
             return await _userRepository.SortUser(Sort, user_login);
+        }
+        [HttpGet("Pagination/{page}")]
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetUserByType(int page, string Type, string Find, string Sort)
+        {
+            var user_login = await _userManager.GetUserAsync(User);
+            var list = await _userRepository.GetAllAsync(page, user_login);
+            if (Type != null)
+            {
+                list = await _userRepository.GetUserByType(page, Type, user_login);
+            }
+            else if (Find != null)
+            {
+                list = await _userRepository.FindUser(Find, user_login);
+            }
+            else if (Sort != null)
+            {
+                list = await _userRepository.SortUser(Sort, user_login);
+            }
+            return list;
         }
     }
 }

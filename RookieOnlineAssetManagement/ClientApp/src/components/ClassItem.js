@@ -19,16 +19,16 @@ export default function ClassItem(props) {
 
     const showUserInfo = () => {
         const userData = (
-            <div class="container" style={{ width: "300px" }}>
+            <div class="container" style={{ width: "350px", height: "300px", margin: "-26px" }}>
                 <div class="row mb-3">
                     <div class="col-5">Staff Code</div>
                     <div class="col-7">{presentation.staffCode}</div>
                 </div>
-                <div class="row mb-3">
+                <div class="row mb-3" >
                     <div class="col-5">Full Name</div>
                     <div class="col-7">{presentation.fullName}</div>
                 </div>
-                <div class="row mb-3">
+                <div class="row mb-3" >
                     <div class="col-5">Username</div>
                     <div class="col-7">{presentation.userName}</div>
                 </div>
@@ -65,12 +65,13 @@ export default function ClassItem(props) {
             contentButtonFunction: "",
             contentButtonClose: "Close",
             handleFunction: null,
+
         };
         modalContext.HandleSetModalData(newDataModal);
     };
 
     return (
-        <tr>
+        <tr onClick={showUserInfo}>
             {[...items].map((item, index) => (
                 <td className="align-middle" key={index}>
                     {item}
@@ -78,7 +79,6 @@ export default function ClassItem(props) {
             ))}
             <td>
                 <i
-                    onClick={showUserInfo}
                     className="bi bi-pencil-fill pe-3"
                     style={{ color: "grey" }}
                 ></i>

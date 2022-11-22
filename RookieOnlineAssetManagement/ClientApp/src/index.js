@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { ModalProvider } from "./ModalContext";
+import { ModalProvider } from "./context/ModalContext";
 
 ReactDOM.render(
     <React.StrictMode>

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Pagination(props) {
     const [currentPage, setCurrentPage] = useState(1);
-
     const toPreviousPage = (e) => {
         e.preventDefault();
         var newPage = currentPage - 1;

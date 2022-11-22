@@ -34,7 +34,7 @@ namespace RookieOnlineAssetManagement.Repositories
                 StaffCode = x.StaffCode,
                 FullName = x.FirstName + " " + x.LastName,
                 UserName = x.UserName,
-                JoinedDate = x.JoinedDay,
+                JoinedDate = x.JoinedDate,
                 DateofBirth = x.DateofBirth,
                 Gender = x.Gender,
                 Location = x.Location,
@@ -47,7 +47,7 @@ namespace RookieOnlineAssetManagement.Repositories
                     StaffCode = x.StaffCode,
                     FullName = x.FirstName + " " + x.LastName,
                     UserName = x.UserName,
-                    JoinedDate = x.JoinedDay,
+                    JoinedDate = x.JoinedDate,
                     DateofBirth = x.DateofBirth,
                     Gender = x.Gender,
                     Location = x.Location,
@@ -60,7 +60,7 @@ namespace RookieOnlineAssetManagement.Repositories
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
-                        JoinedDate = x.JoinedDay,
+                        JoinedDate = x.JoinedDate,
                         DateofBirth = x.DateofBirth,
                         Gender = x.Gender,
                         Location = x.Location,
@@ -79,7 +79,7 @@ namespace RookieOnlineAssetManagement.Repositories
                 StaffCode = x.StaffCode,
                 FullName = x.FirstName + " " + x.LastName,
                 UserName = x.UserName,
-                JoinedDate = x.JoinedDay,
+                JoinedDate = x.JoinedDate,
                 DateofBirth = x.DateofBirth,
                 Gender = x.Gender,
                 Location = x.Location,
@@ -106,7 +106,7 @@ namespace RookieOnlineAssetManagement.Repositories
                 StaffCode = x.StaffCode,
                 FullName = x.FirstName + " " + x.LastName,
                 UserName = x.UserName,
-                JoinedDate = x.JoinedDay,
+                JoinedDate = x.JoinedDate,
                 DateofBirth = x.DateofBirth,
                 Gender = x.Gender,
                 Location = x.Location,
@@ -121,7 +121,7 @@ namespace RookieOnlineAssetManagement.Repositories
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
-                        JoinedDate = x.JoinedDay,
+                        JoinedDate = x.JoinedDate,
                         DateofBirth = x.DateofBirth,
                         Gender = x.Gender,
                         Location = x.Location,
@@ -135,7 +135,7 @@ namespace RookieOnlineAssetManagement.Repositories
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
-                        JoinedDate = x.JoinedDay,
+                        JoinedDate = x.JoinedDate,
                         DateofBirth = x.DateofBirth,
                         Gender = x.Gender,
                         Location = x.Location,
@@ -149,7 +149,7 @@ namespace RookieOnlineAssetManagement.Repositories
                         StaffCode = x.StaffCode,
                         FullName = x.FirstName + " " + x.LastName,
                         UserName = x.UserName,
-                        JoinedDate = x.JoinedDay,
+                        JoinedDate = x.JoinedDate,
                         DateofBirth = x.DateofBirth,
                         Gender = x.Gender,
                         Location = x.Location,
@@ -164,7 +164,7 @@ namespace RookieOnlineAssetManagement.Repositories
                     StaffCode = x.StaffCode,
                     FullName = x.FirstName + " " + x.LastName,
                     UserName = x.UserName,
-                    JoinedDate = x.JoinedDay,
+                    JoinedDate = x.JoinedDate,
                     DateofBirth = x.DateofBirth,
                     Gender = x.Gender,
                     Location = x.Location,
@@ -185,14 +185,14 @@ namespace RookieOnlineAssetManagement.Repositories
             }
         }
 
-        public async Task<List<UserModel>> SortUser(string Sort, User user_login,string Type,string Find)
+        public async Task<List<UserModel>> SortUser(string Sort, User user_login, string Type, string Find)
         {
             var users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == false).Select(x => new UserModel
             {
                 StaffCode = x.StaffCode,
                 FullName = x.FirstName + " " + x.LastName,
                 UserName = x.UserName,
-                JoinedDate = x.JoinedDay,
+                JoinedDate = x.JoinedDate,
                 DateofBirth = x.DateofBirth,
                 Gender = x.Gender,
                 Location = x.Location,
@@ -203,26 +203,12 @@ namespace RookieOnlineAssetManagement.Repositories
                 case "Staff Code":
                     if (Type == "Admin")
                     {
-                        users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == false&&x.Type==UserType.Admin).Select(x => new UserModel
+                        users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == false && x.Type == UserType.Admin).Select(x => new UserModel
                         {
                             StaffCode = x.StaffCode,
                             FullName = x.FirstName + " " + x.LastName,
                             UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
-                            DateofBirth = x.DateofBirth,
-                            Gender = x.Gender,
-                            Location = x.Location,
-                            Type = x.Type
-                        }).OrderByDescending(o => o.StaffCode).ToListAsync();
-                        break;
-                    }else if(Type=="Staff")
-                    {
-                        users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == false && x.Type == UserType.Staff).Select(x => new UserModel
-                        {
-                            StaffCode = x.StaffCode,
-                            FullName = x.FirstName + " " + x.LastName,
-                            UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
+                            JoinedDate = x.JoinedDate,
                             DateofBirth = x.DateofBirth,
                             Gender = x.Gender,
                             Location = x.Location,
@@ -230,14 +216,48 @@ namespace RookieOnlineAssetManagement.Repositories
                         }).OrderByDescending(o => o.StaffCode).ToListAsync();
                         break;
                     }
-                    else
+                    else if (Type == "Staff")
+                    {
+                        users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == false && x.Type == UserType.Staff).Select(x => new UserModel
+                        {
+                            StaffCode = x.StaffCode,
+                            FullName = x.FirstName + " " + x.LastName,
+                            UserName = x.UserName,
+                            JoinedDate = x.JoinedDate,
+                            DateofBirth = x.DateofBirth,
+                            Gender = x.Gender,
+                            Location = x.Location,
+                            Type = x.Type
+                        }).OrderByDescending(o => o.StaffCode).ToListAsync();
+                        break;
+                    }
+                    else if (Type == "All")
                     {
                         users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == false).Select(x => new UserModel
                         {
                             StaffCode = x.StaffCode,
                             FullName = x.FirstName + " " + x.LastName,
                             UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
+                            JoinedDate = x.JoinedDate,
+                            DateofBirth = x.DateofBirth,
+                            Gender = x.Gender,
+                            Location = x.Location,
+                            Type = x.Type
+                        }).OrderByDescending(o => o.StaffCode).ToListAsync();
+                        break;
+                    }
+                    else 
+                    {
+                        users = await _context.Users.Where(x => x.Location == user_login.Location &&
+                        x.IsDisabled == false &&
+                        (x.FirstName.ToUpper().Contains(Find.ToUpper()) ||
+                        x.StaffCode.ToUpper().Contains(Find.ToUpper()) ||
+                        x.UserName.ToUpper().Contains(Find.ToUpper()))).Select(x => new UserModel
+                        {
+                            StaffCode = x.StaffCode,
+                            FullName = x.FirstName + " " + x.LastName,
+                            UserName = x.UserName,
+                            JoinedDate = x.JoinedDate,
                             DateofBirth = x.DateofBirth,
                             Gender = x.Gender,
                             Location = x.Location,
@@ -253,7 +273,7 @@ namespace RookieOnlineAssetManagement.Repositories
                             StaffCode = x.StaffCode,
                             FullName = x.FirstName + " " + x.LastName,
                             UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
+                            JoinedDate = x.JoinedDate,
                             DateofBirth = x.DateofBirth,
                             Gender = x.Gender,
                             Location = x.Location,
@@ -268,7 +288,22 @@ namespace RookieOnlineAssetManagement.Repositories
                             StaffCode = x.StaffCode,
                             FullName = x.FirstName + " " + x.LastName,
                             UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
+                            JoinedDate = x.JoinedDate,
+                            DateofBirth = x.DateofBirth,
+                            Gender = x.Gender,
+                            Location = x.Location,
+                            Type = x.Type
+                        }).OrderByDescending(o => o.FullName).ToListAsync();
+                        break;
+                    }
+                    else if (Type == "All")
+                    {
+                        users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == false).Select(x => new UserModel
+                        {
+                            StaffCode = x.StaffCode,
+                            FullName = x.FirstName + " " + x.LastName,
+                            UserName = x.UserName,
+                            JoinedDate = x.JoinedDate,
                             DateofBirth = x.DateofBirth,
                             Gender = x.Gender,
                             Location = x.Location,
@@ -278,12 +313,16 @@ namespace RookieOnlineAssetManagement.Repositories
                     }
                     else
                     {
-                        users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == false).Select(x => new UserModel
+                        users = await _context.Users.Where(x => x.Location == user_login.Location &&
+                        x.IsDisabled == false &&
+                        (x.FirstName.ToUpper().Contains(Find.ToUpper()) ||
+                        x.StaffCode.ToUpper().Contains(Find.ToUpper()) ||
+                        x.UserName.ToUpper().Contains(Find.ToUpper()))).Select(x => new UserModel
                         {
                             StaffCode = x.StaffCode,
                             FullName = x.FirstName + " " + x.LastName,
                             UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
+                            JoinedDate = x.JoinedDate,
                             DateofBirth = x.DateofBirth,
                             Gender = x.Gender,
                             Location = x.Location,
@@ -299,7 +338,7 @@ namespace RookieOnlineAssetManagement.Repositories
                             StaffCode = x.StaffCode,
                             FullName = x.FirstName + " " + x.LastName,
                             UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
+                            JoinedDate = x.JoinedDate,
                             DateofBirth = x.DateofBirth,
                             Gender = x.Gender,
                             Location = x.Location,
@@ -314,7 +353,22 @@ namespace RookieOnlineAssetManagement.Repositories
                             StaffCode = x.StaffCode,
                             FullName = x.FirstName + " " + x.LastName,
                             UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
+                            JoinedDate = x.JoinedDate,
+                            DateofBirth = x.DateofBirth,
+                            Gender = x.Gender,
+                            Location = x.Location,
+                            Type = x.Type
+                        }).OrderByDescending(o => o.JoinedDate).ToListAsync();
+                        break;
+                    }
+                    else if (Type == "All")
+                    {
+                        users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == false).Select(x => new UserModel
+                        {
+                            StaffCode = x.StaffCode,
+                            FullName = x.FirstName + " " + x.LastName,
+                            UserName = x.UserName,
+                            JoinedDate = x.JoinedDate,
                             DateofBirth = x.DateofBirth,
                             Gender = x.Gender,
                             Location = x.Location,
@@ -324,12 +378,16 @@ namespace RookieOnlineAssetManagement.Repositories
                     }
                     else
                     {
-                        users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == false).Select(x => new UserModel
+                        users = await _context.Users.Where(x => x.Location == user_login.Location &&
+                        x.IsDisabled == false &&
+                        (x.FirstName.ToUpper().Contains(Find.ToUpper()) ||
+                        x.StaffCode.ToUpper().Contains(Find.ToUpper()) ||
+                        x.UserName.ToUpper().Contains(Find.ToUpper()))).Select(x => new UserModel
                         {
                             StaffCode = x.StaffCode,
                             FullName = x.FirstName + " " + x.LastName,
                             UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
+                            JoinedDate = x.JoinedDate,
                             DateofBirth = x.DateofBirth,
                             Gender = x.Gender,
                             Location = x.Location,
@@ -345,7 +403,7 @@ namespace RookieOnlineAssetManagement.Repositories
                             StaffCode = x.StaffCode,
                             FullName = x.FirstName + " " + x.LastName,
                             UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
+                            JoinedDate = x.JoinedDate,
                             DateofBirth = x.DateofBirth,
                             Gender = x.Gender,
                             Location = x.Location,
@@ -360,7 +418,7 @@ namespace RookieOnlineAssetManagement.Repositories
                             StaffCode = x.StaffCode,
                             FullName = x.FirstName + " " + x.LastName,
                             UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
+                            JoinedDate = x.JoinedDate,
                             DateofBirth = x.DateofBirth,
                             Gender = x.Gender,
                             Location = x.Location,
@@ -368,14 +426,33 @@ namespace RookieOnlineAssetManagement.Repositories
                         }).OrderByDescending(o => o.Type).ToListAsync();
                         break;
                     }
-                    else
+                    else if (Type == "All")
                     {
                         users = await _context.Users.Where(x => x.Location == user_login.Location && x.IsDisabled == false).Select(x => new UserModel
                         {
                             StaffCode = x.StaffCode,
                             FullName = x.FirstName + " " + x.LastName,
                             UserName = x.UserName,
-                            JoinedDate = x.JoinedDay,
+                            JoinedDate = x.JoinedDate,
+                            DateofBirth = x.DateofBirth,
+                            Gender = x.Gender,
+                            Location = x.Location,
+                            Type = x.Type
+                        }).OrderByDescending(o => o.Type).ToListAsync();
+                        break;
+                    }
+                    else 
+                    {
+                        users = await _context.Users.Where(x => x.Location == user_login.Location &&
+                        x.IsDisabled == false &&
+                        (x.FirstName.ToUpper().Contains(Find.ToUpper()) ||
+                        x.StaffCode.ToUpper().Contains(Find.ToUpper()) ||
+                        x.UserName.ToUpper().Contains(Find.ToUpper()))).Select(x => new UserModel
+                        {
+                            StaffCode = x.StaffCode,
+                            FullName = x.FirstName + " " + x.LastName,
+                            UserName = x.UserName,
+                            JoinedDate = x.JoinedDate,
                             DateofBirth = x.DateofBirth,
                             Gender = x.Gender,
                             Location = x.Location,

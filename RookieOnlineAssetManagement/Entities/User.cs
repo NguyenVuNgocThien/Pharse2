@@ -10,7 +10,7 @@ namespace RookieOnlineAssetManagement.Entities
     {
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
-        public DateTime JoinedDay { get; set; }
+        public DateTime JoinedDate { get; set; }
         public DateTime DateofBirth { get; set; }
         public Gender Gender { get; set; }
         public UserType Type { get; set; }

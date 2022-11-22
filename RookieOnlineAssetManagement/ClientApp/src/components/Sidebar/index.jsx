@@ -8,11 +8,11 @@ const Sidebar = () => {
     return (
         <div className="text-start">
             <img
-                src="nash_logo.png"
+                src="/images/logo-nashtech.png"
                 alt="nashtech logo"
-                style={{ width: "50%" }}
+                style={{ width: "35%" }}
             />
-            <h5 className="text-nash-red">
+            <h5 className="text-nash-red mt-2 mb-4">
                 <b>Online Asset Management</b>
             </h5>
             <Card className="rounded-0 border-0 fw-bold fs-5">
@@ -27,15 +27,7 @@ const Sidebar = () => {
                             className="border border-white border-3"
                             style={{ background: "#eeeeee" }}
                         >
-                            <Link
-                                to="/ManageUser"
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#cf2338",
-                                }}
-                            >
-                                Manage User
-                            </Link>
+                            Manage User
                         </ListGroup.Item>
                     </Link>
                     <Link className="ListGroup__Link" to="">

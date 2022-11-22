@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ModalContext } from "../ModalContext";
+import { ModalContext } from "../context/ModalContext";
 
 export default function ClassItem(props) {
     const { presentation } = props;

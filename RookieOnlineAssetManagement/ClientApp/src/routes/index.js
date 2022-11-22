@@ -4,9 +4,9 @@ import { Routes, Route, useRoutes } from "react-router-dom";
 import Layout from "../layout";
 import MinimalLayout from "../layout/MinimalLayout";
 import MainLayout from "../layout/MainLayout";
-import Assignment from "../scenes/Home";
-import ErrorPage from "../scenes/error";
-import ManageUser from "../scenes/ManageUser/index";
+import Assignment from "../pages/Home";
+import ErrorPage from "../pages/error";
+import ManageUser from "../pages/ManageUser/index";
 const Router = () => {
     return useRoutes([
         {

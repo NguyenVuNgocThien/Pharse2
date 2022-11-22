@@ -5,7 +5,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { Button, Modal } from "react-bootstrap";
-import "./home.css";
+import "./Home.css";
 
 const Assignment = () => {
     const [show, setShow] = useState(true);
